@@ -1,0 +1,1 @@
+qscintilla.pro INCLUDEPATH+=../Qt4Qt5 LIBS+=-L../Qt4Qt5
