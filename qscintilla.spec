@@ -4,7 +4,7 @@
 #
 Name     : qscintilla
 Version  : 2.10.8
-Release  : 4
+Release  : 5
 URL      : https://sourceforge.net/projects/pyqt/files/QScintilla2/QScintilla-2.10.8/QScintilla_gpl-2.10.8.tar.gz
 Source0  : https://sourceforge.net/projects/pyqt/files/QScintilla2/QScintilla-2.10.8/QScintilla_gpl-2.10.8.tar.gz
 Summary  : No detailed summary available
@@ -13,12 +13,17 @@ License  : GPL-3.0 HPND
 Requires: qscintilla-data = %{version}-%{release}
 Requires: qscintilla-lib = %{version}-%{release}
 Requires: qscintilla-license = %{version}-%{release}
+Requires: qscintilla-python = %{version}-%{release}
+Requires: qscintilla-python3 = %{version}-%{release}
+BuildRequires : PyQt5
 BuildRequires : buildreq-kde
 BuildRequires : buildreq-qmake
 BuildRequires : pkgconfig(Qt5Designer)
 BuildRequires : pkgconfig(Qt5Gui)
 BuildRequires : pkgconfig(Qt5PrintSupport)
 BuildRequires : pkgconfig(Qt5Widgets)
+BuildRequires : python3-dev
+BuildRequires : qscintilla-dev
 BuildRequires : sip
 BuildRequires : sip-dev
 
@@ -63,6 +68,24 @@ Group: Default
 license components for the qscintilla package.
 
 
+%package python
+Summary: python components for the qscintilla package.
+Group: Default
+Requires: qscintilla-python3 = %{version}-%{release}
+
+%description python
+python components for the qscintilla package.
+
+
+%package python3
+Summary: python3 components for the qscintilla package.
+Group: Default
+Requires: python3-core
+
+%description python3
+python3 components for the qscintilla package.
+
+
 %prep
 %setup -q -n QScintilla_gpl-2.10.8
 
@@ -78,7 +101,7 @@ make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1545359061
+export SOURCE_DATE_EPOCH=1545359610
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/qscintilla
 cp LICENSE %{buildroot}/usr/share/package-licenses/qscintilla/LICENSE
@@ -89,6 +112,13 @@ cp src/License.txt %{buildroot}/usr/share/package-licenses/qscintilla/src_Licens
 pushd Qt4Qt5
 %make_install
 popd
+## install_append content
+pushd Python
+python3 configure.py --pyqt=PyQt5
+make
+%make_install
+popd
+## install_append end
 
 %files
 %defattr(-,root,root,-)
@@ -106,11 +136,67 @@ popd
 /usr/share/qt5/qsci/api/python/Python-3.5.api
 /usr/share/qt5/qsci/api/python/Python-3.6.api
 /usr/share/qt5/qsci/api/python/Python-3.7.api
+/usr/share/qt5/qsci/api/python/QScintilla2.api
 /usr/share/qt5/translations/qscintilla_cs.qm
 /usr/share/qt5/translations/qscintilla_de.qm
 /usr/share/qt5/translations/qscintilla_es.qm
 /usr/share/qt5/translations/qscintilla_fr.qm
 /usr/share/qt5/translations/qscintilla_pt_br.qm
+/usr/share/sip/PyQt5/Qsci/qsciabstractapis.sip
+/usr/share/sip/PyQt5/Qsci/qsciapis.sip
+/usr/share/sip/PyQt5/Qsci/qscicommand.sip
+/usr/share/sip/PyQt5/Qsci/qscicommandset.sip
+/usr/share/sip/PyQt5/Qsci/qscidocument.sip
+/usr/share/sip/PyQt5/Qsci/qscilexer.sip
+/usr/share/sip/PyQt5/Qsci/qscilexeravs.sip
+/usr/share/sip/PyQt5/Qsci/qscilexerbash.sip
+/usr/share/sip/PyQt5/Qsci/qscilexerbatch.sip
+/usr/share/sip/PyQt5/Qsci/qscilexercmake.sip
+/usr/share/sip/PyQt5/Qsci/qscilexercoffeescript.sip
+/usr/share/sip/PyQt5/Qsci/qscilexercpp.sip
+/usr/share/sip/PyQt5/Qsci/qscilexercsharp.sip
+/usr/share/sip/PyQt5/Qsci/qscilexercss.sip
+/usr/share/sip/PyQt5/Qsci/qscilexercustom.sip
+/usr/share/sip/PyQt5/Qsci/qscilexerd.sip
+/usr/share/sip/PyQt5/Qsci/qscilexerdiff.sip
+/usr/share/sip/PyQt5/Qsci/qscilexeredifact.sip
+/usr/share/sip/PyQt5/Qsci/qscilexerfortran.sip
+/usr/share/sip/PyQt5/Qsci/qscilexerfortran77.sip
+/usr/share/sip/PyQt5/Qsci/qscilexerhtml.sip
+/usr/share/sip/PyQt5/Qsci/qscilexeridl.sip
+/usr/share/sip/PyQt5/Qsci/qscilexerjava.sip
+/usr/share/sip/PyQt5/Qsci/qscilexerjavascript.sip
+/usr/share/sip/PyQt5/Qsci/qscilexerjson.sip
+/usr/share/sip/PyQt5/Qsci/qscilexerlua.sip
+/usr/share/sip/PyQt5/Qsci/qscilexermakefile.sip
+/usr/share/sip/PyQt5/Qsci/qscilexermarkdown.sip
+/usr/share/sip/PyQt5/Qsci/qscilexermatlab.sip
+/usr/share/sip/PyQt5/Qsci/qscilexeroctave.sip
+/usr/share/sip/PyQt5/Qsci/qscilexerpascal.sip
+/usr/share/sip/PyQt5/Qsci/qscilexerperl.sip
+/usr/share/sip/PyQt5/Qsci/qscilexerpo.sip
+/usr/share/sip/PyQt5/Qsci/qscilexerpostscript.sip
+/usr/share/sip/PyQt5/Qsci/qscilexerpov.sip
+/usr/share/sip/PyQt5/Qsci/qscilexerproperties.sip
+/usr/share/sip/PyQt5/Qsci/qscilexerpython.sip
+/usr/share/sip/PyQt5/Qsci/qscilexerruby.sip
+/usr/share/sip/PyQt5/Qsci/qscilexerspice.sip
+/usr/share/sip/PyQt5/Qsci/qscilexersql.sip
+/usr/share/sip/PyQt5/Qsci/qscilexertcl.sip
+/usr/share/sip/PyQt5/Qsci/qscilexertex.sip
+/usr/share/sip/PyQt5/Qsci/qscilexerverilog.sip
+/usr/share/sip/PyQt5/Qsci/qscilexervhdl.sip
+/usr/share/sip/PyQt5/Qsci/qscilexerxml.sip
+/usr/share/sip/PyQt5/Qsci/qscilexeryaml.sip
+/usr/share/sip/PyQt5/Qsci/qscimacro.sip
+/usr/share/sip/PyQt5/Qsci/qscimod4.sip
+/usr/share/sip/PyQt5/Qsci/qscimod5.sip
+/usr/share/sip/PyQt5/Qsci/qscimodcommon.sip
+/usr/share/sip/PyQt5/Qsci/qsciprinter.sip
+/usr/share/sip/PyQt5/Qsci/qsciscintilla.sip
+/usr/share/sip/PyQt5/Qsci/qsciscintillabase.sip
+/usr/share/sip/PyQt5/Qsci/qscistyle.sip
+/usr/share/sip/PyQt5/Qsci/qscistyledtext.sip
 
 %files dev
 %defattr(-,root,root,-)
@@ -183,3 +269,10 @@ popd
 /usr/share/package-licenses/qscintilla/lexers_License.txt
 /usr/share/package-licenses/qscintilla/lexlib_License.txt
 /usr/share/package-licenses/qscintilla/src_License.txt
+
+%files python
+%defattr(-,root,root,-)
+
+%files python3
+%defattr(-,root,root,-)
+/usr/lib/python3*/*

@@ -3,3 +3,5 @@
 sip
 sip-dev
 buildreq-kde
+PyQt5
+qscintilla-dev
