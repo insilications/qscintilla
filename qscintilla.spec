@@ -4,7 +4,7 @@
 #
 Name     : qscintilla
 Version  : 2.10.8
-Release  : 3
+Release  : 4
 URL      : https://sourceforge.net/projects/pyqt/files/QScintilla2/QScintilla-2.10.8/QScintilla_gpl-2.10.8.tar.gz
 Source0  : https://sourceforge.net/projects/pyqt/files/QScintilla2/QScintilla-2.10.8/QScintilla_gpl-2.10.8.tar.gz
 Summary  : No detailed summary available
@@ -78,7 +78,7 @@ make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1545358415
+export SOURCE_DATE_EPOCH=1545359061
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/qscintilla
 cp LICENSE %{buildroot}/usr/share/package-licenses/qscintilla/LICENSE
