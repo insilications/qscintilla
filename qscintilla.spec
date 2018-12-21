@@ -4,7 +4,7 @@
 #
 Name     : qscintilla
 Version  : 2.10.8
-Release  : 2
+Release  : 3
 URL      : https://sourceforge.net/projects/pyqt/files/QScintilla2/QScintilla-2.10.8/QScintilla_gpl-2.10.8.tar.gz
 Source0  : https://sourceforge.net/projects/pyqt/files/QScintilla2/QScintilla-2.10.8/QScintilla_gpl-2.10.8.tar.gz
 Summary  : No detailed summary available
@@ -13,11 +13,14 @@ License  : GPL-3.0 HPND
 Requires: qscintilla-data = %{version}-%{release}
 Requires: qscintilla-lib = %{version}-%{release}
 Requires: qscintilla-license = %{version}-%{release}
+BuildRequires : buildreq-kde
 BuildRequires : buildreq-qmake
 BuildRequires : pkgconfig(Qt5Designer)
 BuildRequires : pkgconfig(Qt5Gui)
 BuildRequires : pkgconfig(Qt5PrintSupport)
 BuildRequires : pkgconfig(Qt5Widgets)
+BuildRequires : sip
+BuildRequires : sip-dev
 
 %description
 All the documentation for QScintilla for Qt v4 and Qt v5 (including
@@ -75,7 +78,7 @@ make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1541552333
+export SOURCE_DATE_EPOCH=1545358415
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/qscintilla
 cp LICENSE %{buildroot}/usr/share/package-licenses/qscintilla/LICENSE
