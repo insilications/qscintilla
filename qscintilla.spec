@@ -4,7 +4,7 @@
 #
 Name     : qscintilla
 Version  : 2.10.8
-Release  : 11
+Release  : 12
 URL      : https://sourceforge.net/projects/pyqt/files/QScintilla2/QScintilla-2.10.8/QScintilla_gpl-2.10.8.tar.gz
 Source0  : https://sourceforge.net/projects/pyqt/files/QScintilla2/QScintilla-2.10.8/QScintilla_gpl-2.10.8.tar.gz
 Summary  : No detailed summary available
@@ -45,6 +45,8 @@ Group: Development
 Requires: qscintilla-lib = %{version}-%{release}
 Requires: qscintilla-data = %{version}-%{release}
 Provides: qscintilla-devel = %{version}-%{release}
+Requires: qscintilla = %{version}-%{release}
+Requires: qscintilla = %{version}-%{release}
 
 %description dev
 dev components for the qscintilla package.
@@ -88,27 +90,30 @@ python3 components for the qscintilla package.
 
 %prep
 %setup -q -n QScintilla_gpl-2.10.8
+cd %{_builddir}/QScintilla_gpl-2.10.8
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
+export LANG=C.UTF-8
+# -Werror is for werrorists
+export GCC_IGNORE_WERROR=1
 pushd Qt4Qt5
-%qmake qscintilla.pro INCLUDEPATH+=../Qt4Qt5 LIBS+=-L../Qt4Qt5
+%qmake QMAKE_CFLAGS+=-fno-lto QMAKE_CXXFLAGS+=-fno-lto  qscintilla.pro INCLUDEPATH+=../Qt4Qt5 LIBS+=-L../Qt4Qt5
 test -r config.log && cat config.log
 make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1545359610
+export SOURCE_DATE_EPOCH=1583218045
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/qscintilla
-cp LICENSE %{buildroot}/usr/share/package-licenses/qscintilla/LICENSE
-cp include/License.txt %{buildroot}/usr/share/package-licenses/qscintilla/include_License.txt
-cp lexers/License.txt %{buildroot}/usr/share/package-licenses/qscintilla/lexers_License.txt
-cp lexlib/License.txt %{buildroot}/usr/share/package-licenses/qscintilla/lexlib_License.txt
-cp src/License.txt %{buildroot}/usr/share/package-licenses/qscintilla/src_License.txt
+cp %{_builddir}/QScintilla_gpl-2.10.8/LICENSE %{buildroot}/usr/share/package-licenses/qscintilla/8624bcdae55baeef00cd11d5dfcfa60f68710a02
+cp %{_builddir}/QScintilla_gpl-2.10.8/include/License.txt %{buildroot}/usr/share/package-licenses/qscintilla/9da27f7b263edb706105ccd68880474013b11bca
+cp %{_builddir}/QScintilla_gpl-2.10.8/lexers/License.txt %{buildroot}/usr/share/package-licenses/qscintilla/9da27f7b263edb706105ccd68880474013b11bca
+cp %{_builddir}/QScintilla_gpl-2.10.8/lexlib/License.txt %{buildroot}/usr/share/package-licenses/qscintilla/9da27f7b263edb706105ccd68880474013b11bca
+cp %{_builddir}/QScintilla_gpl-2.10.8/src/License.txt %{buildroot}/usr/share/package-licenses/qscintilla/9da27f7b263edb706105ccd68880474013b11bca
 pushd Qt4Qt5
 %make_install
 popd
@@ -264,11 +269,8 @@ popd
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/qscintilla/LICENSE
-/usr/share/package-licenses/qscintilla/include_License.txt
-/usr/share/package-licenses/qscintilla/lexers_License.txt
-/usr/share/package-licenses/qscintilla/lexlib_License.txt
-/usr/share/package-licenses/qscintilla/src_License.txt
+/usr/share/package-licenses/qscintilla/8624bcdae55baeef00cd11d5dfcfa60f68710a02
+/usr/share/package-licenses/qscintilla/9da27f7b263edb706105ccd68880474013b11bca
 
 %files python
 %defattr(-,root,root,-)
