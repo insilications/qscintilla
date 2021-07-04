@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : qscintilla
 Version  : 2.13.0
-Release  : 223
+Release  : 224
 URL      : https://www.riverbankcomputing.com/static/Downloads/QScintilla/2.13.0/QScintilla_src-2.13.0.tar.gz
 Source0  : https://www.riverbankcomputing.com/static/Downloads/QScintilla/2.13.0/QScintilla_src-2.13.0.tar.gz
 Summary  : No detailed summary available
@@ -14,7 +14,6 @@ License  : GPL-2.0 GPL-3.0
 Requires: qscintilla-data = %{version}-%{release}
 Requires: qscintilla-lib = %{version}-%{release}
 BuildRequires : PyQt-builder
-BuildRequires : PyQt5
 BuildRequires : buildreq-kde
 BuildRequires : buildreq-qmake
 BuildRequires : pkgconfig(Qt5Designer)
@@ -140,27 +139,16 @@ pushd src
 %qmake qscintilla.pro
 test -r config.log && cat config.log
 make  %{?_smp_mflags} V=1 VERBOSE=1
-cd ../designer
-%qmake
 test -r config.log && cat config.log
 make  %{?_smp_mflags}    V=1 VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1625442325
+export SOURCE_DATE_EPOCH=1625443033
 rm -rf %{buildroot}
 pushd src
 %make_install
 popd
-## install_append content
-#pushd Python
-#cp pyproject-qt5.toml pyproject.toml
-#sip-install
-#popd
-pushd designer
-%make_install
-popd
-## install_append end
 
 %files
 %defattr(-,root,root,-)
@@ -249,4 +237,3 @@ popd
 /usr/lib64/libqscintilla2_qt5.so.15
 /usr/lib64/libqscintilla2_qt5.so.15.1
 /usr/lib64/libqscintilla2_qt5.so.15.1.0
-/usr/lib64/qt5/plugins/designer/libqscintillaplugin.so
