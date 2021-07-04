@@ -1,0 +1,5 @@
+%qmake qscintilla.pro
+test -r config.log && cat config.log
+make  %{?_smp_mflags} V=1 VERBOSE=1
+cd ../designer
+%qmake

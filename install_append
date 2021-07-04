@@ -1,5 +1,7 @@
-pushd Python
-python3 configure.py --pyqt=PyQt5
-make
+#pushd Python
+#cp pyproject-qt5.toml pyproject.toml
+#sip-install
+#popd
+pushd designer
 %make_install
 popd

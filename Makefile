@@ -1,5 +1,6 @@
 PKG_NAME := qscintilla
-URL = https://sourceforge.net/projects/pyqt/files/QScintilla2/QScintilla-2.10.8/QScintilla_gpl-2.10.8.tar.gz
+URL = https://www.riverbankcomputing.com/static/Downloads/QScintilla/2.13.0/QScintilla_src-2.13.0.tar.gz
 ARCHIVES = 
+ARCHIVES_GIT = 
 
 include ../common/Makefile.common
