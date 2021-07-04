@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : qscintilla
 Version  : 2.13.0
-Release  : 20
+Release  : 223
 URL      : https://www.riverbankcomputing.com/static/Downloads/QScintilla/2.13.0/QScintilla_src-2.13.0.tar.gz
 Source0  : https://www.riverbankcomputing.com/static/Downloads/QScintilla/2.13.0/QScintilla_src-2.13.0.tar.gz
 Summary  : No detailed summary available
@@ -147,7 +147,7 @@ make  %{?_smp_mflags}    V=1 VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1625440611
+export SOURCE_DATE_EPOCH=1625442325
 rm -rf %{buildroot}
 pushd src
 %make_install
