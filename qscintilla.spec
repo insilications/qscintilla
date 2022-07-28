@@ -10,12 +10,13 @@ URL      : https://www.riverbankcomputing.com/static/Downloads/QScintilla/2.13.2
 Source0  : https://www.riverbankcomputing.com/static/Downloads/QScintilla/2.13.2/QScintilla_src-2.13.2.tar.gz
 Summary  : No detailed summary available
 Group    : Development/Tools
-License  : GPL-2.0 GPL-3.0
+License  : GPL-2.0
+Requires: qscintilla-data = %{version}-%{release}
+Requires: qscintilla-lib = %{version}-%{release}
 BuildRequires : PyQt5
 BuildRequires : binutils-dev
 BuildRequires : buildreq-cmake
 BuildRequires : buildreq-kde
-BuildRequires : buildreq-qmake
 BuildRequires : bzip2-dev
 BuildRequires : bzip2-staticdev
 BuildRequires : dbus-python
@@ -34,10 +35,7 @@ BuildRequires : ncurses-dev
 BuildRequires : openssl-dev
 BuildRequires : openssl-staticdev
 BuildRequires : pkg-config-dev
-BuildRequires : pkgconfig(Qt5Designer)
 BuildRequires : pkgconfig(Qt5Gui)
-BuildRequires : pkgconfig(Qt5PrintSupport)
-BuildRequires : pkgconfig(Qt5Widgets)
 BuildRequires : pypi-qtpy
 BuildRequires : python3
 BuildRequires : python3-dev
@@ -73,6 +71,35 @@ BuildRequires : zlib-staticdev
 %description
 No detailed description available
 
+%package data
+Summary: data components for the qscintilla package.
+Group: Data
+
+%description data
+data components for the qscintilla package.
+
+
+%package dev
+Summary: dev components for the qscintilla package.
+Group: Development
+Requires: qscintilla-lib = %{version}-%{release}
+Requires: qscintilla-data = %{version}-%{release}
+Provides: qscintilla-devel = %{version}-%{release}
+Requires: qscintilla = %{version}-%{release}
+
+%description dev
+dev components for the qscintilla package.
+
+
+%package lib
+Summary: lib components for the qscintilla package.
+Group: Libraries
+Requires: qscintilla-data = %{version}-%{release}
+
+%description lib
+lib components for the qscintilla package.
+
+
 %prep
 %setup -q -n QScintilla_src-2.13.2
 cd %{_builddir}/QScintilla_src-2.13.2
@@ -83,15 +110,15 @@ unset https_proxy
 unset no_proxy
 export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 export LANG=C.UTF-8
-## altflags1 content
+## altflags1f content
 ## altflags1
 unset ASFLAGS
-export CFLAGS="-DNDEBUG=1 -Ofast -mno-vzeroupper --param=lto-max-streaming-parallelism=20 -march=skylake -mtune=skylake -mavx -mavx2 -msse2avx -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x4000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -fasynchronous-unwind-tables -funwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -mrelax-cmpxchg-loop -feliminate-unused-debug-symbols -feliminate-unused-debug-types -fipa-pta -flive-range-shrinkage -flto=20 -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fomit-frame-pointer -static-libstdc++ -static-libgcc -mrelax-cmpxchg-loop -pthread -Wl,--build-id=sha1 -Wno-inline"
-export ASMFLAGS="-DNDEBUG=1 -Ofast -mno-vzeroupper --param=lto-max-streaming-parallelism=20 -march=skylake -mtune=skylake -mavx -mavx2 -msse2avx -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x4000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -fasynchronous-unwind-tables -funwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -mrelax-cmpxchg-loop -feliminate-unused-debug-symbols -feliminate-unused-debug-types -fipa-pta -flive-range-shrinkage -flto=20 -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fomit-frame-pointer -static-libstdc++ -static-libgcc -mrelax-cmpxchg-loop -pthread -Wl,--build-id=sha1 -Wno-inline"
-export CXXFLAGS="-DNDEBUG=1 -Ofast -mno-vzeroupper --param=lto-max-streaming-parallelism=20 -march=skylake -mtune=skylake -mavx -mavx2 -msse2avx -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x4000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -fasynchronous-unwind-tables -funwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -mrelax-cmpxchg-loop -feliminate-unused-debug-symbols -feliminate-unused-debug-types -fipa-pta -flive-range-shrinkage -flto=20 -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -fvisibility-inlines-hidden -pipe -ffat-lto-objects -fomit-frame-pointer -static-libstdc++ -static-libgcc -mrelax-cmpxchg-loop -pthread -Wl,--build-id=sha1 -Wno-inline"
-export FCFLAGS="-DNDEBUG=1 -Ofast -mno-vzeroupper --param=lto-max-streaming-parallelism=20 -march=skylake -mtune=skylake -mavx -mavx2 -msse2avx -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x4000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -fasynchronous-unwind-tables -funwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -mrelax-cmpxchg-loop -feliminate-unused-debug-symbols -feliminate-unused-debug-types -fipa-pta -flive-range-shrinkage -flto=20 -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fomit-frame-pointer -static-libstdc++ -static-libgcc -mrelax-cmpxchg-loop -pthread -Wl,--build-id=sha1 -Wno-inline"
-export FFLAGS="-DNDEBUG=1 -Ofast -mno-vzeroupper --param=lto-max-streaming-parallelism=20 -march=skylake -mtune=skylake -mavx -mavx2 -msse2avx -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x4000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -fasynchronous-unwind-tables -funwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -mrelax-cmpxchg-loop -feliminate-unused-debug-symbols -feliminate-unused-debug-types -fipa-pta -flive-range-shrinkage -flto=20 -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fomit-frame-pointer -static-libstdc++ -static-libgcc -mrelax-cmpxchg-loop -pthread -Wl,--build-id=sha1 -Wno-inline"
-export LDFLAGS="-DNDEBUG=1 -Ofast -mno-vzeroupper --param=lto-max-streaming-parallelism=20 -march=skylake -mtune=skylake -mavx -mavx2 -msse2avx -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x4000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -fasynchronous-unwind-tables -funwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -mrelax-cmpxchg-loop -feliminate-unused-debug-symbols -feliminate-unused-debug-types -fipa-pta -flive-range-shrinkage -flto=20 -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fomit-frame-pointer -static-libstdc++ -static-libgcc -mrelax-cmpxchg-loop -pthread -Wl,--build-id=sha1 -Wno-inline"
+export CFLAGS="-DNDEBUG=1 -O3 -mno-vzeroupper --param=lto-max-streaming-parallelism=20 -march=skylake -mtune=skylake -mavx -mavx2 -msse2avx -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x4000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -fasynchronous-unwind-tables -funwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -mrelax-cmpxchg-loop -feliminate-unused-debug-symbols -feliminate-unused-debug-types -flive-range-shrinkage -fno-lto -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fomit-frame-pointer -static-libstdc++ -static-libgcc -mrelax-cmpxchg-loop -pthread -Wl,--build-id=sha1 -Wno-inline"
+export ASMFLAGS="-DNDEBUG=1 -O3 -mno-vzeroupper --param=lto-max-streaming-parallelism=20 -march=skylake -mtune=skylake -mavx -mavx2 -msse2avx -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x4000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -fasynchronous-unwind-tables -funwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -mrelax-cmpxchg-loop -feliminate-unused-debug-symbols -feliminate-unused-debug-types -flive-range-shrinkage -fno-lto -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fomit-frame-pointer -static-libstdc++ -static-libgcc -mrelax-cmpxchg-loop -pthread -Wl,--build-id=sha1 -Wno-inline"
+export CXXFLAGS="-DNDEBUG=1 -O3 -mno-vzeroupper --param=lto-max-streaming-parallelism=20 -march=skylake -mtune=skylake -mavx -mavx2 -msse2avx -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x4000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -fasynchronous-unwind-tables -funwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -mrelax-cmpxchg-loop -feliminate-unused-debug-symbols -feliminate-unused-debug-types -flive-range-shrinkage -fno-lto -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -fvisibility-inlines-hidden -pipe -ffat-lto-objects -fomit-frame-pointer -static-libstdc++ -static-libgcc -mrelax-cmpxchg-loop -pthread -Wl,--build-id=sha1 -Wno-inline"
+export FCFLAGS="-DNDEBUG=1 -O3 -mno-vzeroupper --param=lto-max-streaming-parallelism=20 -march=skylake -mtune=skylake -mavx -mavx2 -msse2avx -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x4000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -fasynchronous-unwind-tables -funwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -mrelax-cmpxchg-loop -feliminate-unused-debug-symbols -feliminate-unused-debug-types -flive-range-shrinkage -fno-lto -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fomit-frame-pointer -static-libstdc++ -static-libgcc -mrelax-cmpxchg-loop -pthread -Wl,--build-id=sha1 -Wno-inline"
+export FFLAGS="-DNDEBUG=1 -O3 -mno-vzeroupper --param=lto-max-streaming-parallelism=20 -march=skylake -mtune=skylake -mavx -mavx2 -msse2avx -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x4000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -fasynchronous-unwind-tables -funwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -mrelax-cmpxchg-loop -feliminate-unused-debug-symbols -feliminate-unused-debug-types -flive-range-shrinkage -fno-lto -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fomit-frame-pointer -static-libstdc++ -static-libgcc -mrelax-cmpxchg-loop -pthread -Wl,--build-id=sha1 -Wno-inline"
+export LDFLAGS="-DNDEBUG=1 -O3 -mno-vzeroupper --param=lto-max-streaming-parallelism=20 -march=skylake -mtune=skylake -mavx -mavx2 -msse2avx -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x4000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -fasynchronous-unwind-tables -funwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -mrelax-cmpxchg-loop -feliminate-unused-debug-symbols -feliminate-unused-debug-types -flive-range-shrinkage -fno-lto -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fomit-frame-pointer -static-libstdc++ -static-libgcc -mrelax-cmpxchg-loop -pthread -Wl,--build-id=sha1 -Wno-inline"
 export AR=/usr/bin/gcc-ar
 export RANLIB=/usr/bin/gcc-ranlib
 export NM=/usr/bin/gcc-nm
@@ -143,7 +170,7 @@ export QT_ENABLE_HIGHDPI_SCALING=0
 export QT_FONT_DPI=88
 export GTK_USE_PORTAL=1
 export DESKTOP_SESSION=plasma
-## altflags1 end
+## altflags1f end
 pushd src
 %qmake qscintilla.pro
 test -r config.log && cat config.log
@@ -153,17 +180,17 @@ make  %{?_smp_mflags}    V=1 VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1659018732
+export SOURCE_DATE_EPOCH=1659018809
 rm -rf %{buildroot}
-## altflags1 content
+## altflags1f content
 ## altflags1
 unset ASFLAGS
-export CFLAGS="-DNDEBUG=1 -Ofast -mno-vzeroupper --param=lto-max-streaming-parallelism=20 -march=skylake -mtune=skylake -mavx -mavx2 -msse2avx -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x4000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -fasynchronous-unwind-tables -funwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -mrelax-cmpxchg-loop -feliminate-unused-debug-symbols -feliminate-unused-debug-types -fipa-pta -flive-range-shrinkage -flto=20 -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fomit-frame-pointer -static-libstdc++ -static-libgcc -mrelax-cmpxchg-loop -pthread -Wl,--build-id=sha1 -Wno-inline"
-export ASMFLAGS="-DNDEBUG=1 -Ofast -mno-vzeroupper --param=lto-max-streaming-parallelism=20 -march=skylake -mtune=skylake -mavx -mavx2 -msse2avx -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x4000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -fasynchronous-unwind-tables -funwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -mrelax-cmpxchg-loop -feliminate-unused-debug-symbols -feliminate-unused-debug-types -fipa-pta -flive-range-shrinkage -flto=20 -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fomit-frame-pointer -static-libstdc++ -static-libgcc -mrelax-cmpxchg-loop -pthread -Wl,--build-id=sha1 -Wno-inline"
-export CXXFLAGS="-DNDEBUG=1 -Ofast -mno-vzeroupper --param=lto-max-streaming-parallelism=20 -march=skylake -mtune=skylake -mavx -mavx2 -msse2avx -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x4000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -fasynchronous-unwind-tables -funwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -mrelax-cmpxchg-loop -feliminate-unused-debug-symbols -feliminate-unused-debug-types -fipa-pta -flive-range-shrinkage -flto=20 -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -fvisibility-inlines-hidden -pipe -ffat-lto-objects -fomit-frame-pointer -static-libstdc++ -static-libgcc -mrelax-cmpxchg-loop -pthread -Wl,--build-id=sha1 -Wno-inline"
-export FCFLAGS="-DNDEBUG=1 -Ofast -mno-vzeroupper --param=lto-max-streaming-parallelism=20 -march=skylake -mtune=skylake -mavx -mavx2 -msse2avx -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x4000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -fasynchronous-unwind-tables -funwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -mrelax-cmpxchg-loop -feliminate-unused-debug-symbols -feliminate-unused-debug-types -fipa-pta -flive-range-shrinkage -flto=20 -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fomit-frame-pointer -static-libstdc++ -static-libgcc -mrelax-cmpxchg-loop -pthread -Wl,--build-id=sha1 -Wno-inline"
-export FFLAGS="-DNDEBUG=1 -Ofast -mno-vzeroupper --param=lto-max-streaming-parallelism=20 -march=skylake -mtune=skylake -mavx -mavx2 -msse2avx -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x4000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -fasynchronous-unwind-tables -funwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -mrelax-cmpxchg-loop -feliminate-unused-debug-symbols -feliminate-unused-debug-types -fipa-pta -flive-range-shrinkage -flto=20 -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fomit-frame-pointer -static-libstdc++ -static-libgcc -mrelax-cmpxchg-loop -pthread -Wl,--build-id=sha1 -Wno-inline"
-export LDFLAGS="-DNDEBUG=1 -Ofast -mno-vzeroupper --param=lto-max-streaming-parallelism=20 -march=skylake -mtune=skylake -mavx -mavx2 -msse2avx -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x4000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -fasynchronous-unwind-tables -funwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -mrelax-cmpxchg-loop -feliminate-unused-debug-symbols -feliminate-unused-debug-types -fipa-pta -flive-range-shrinkage -flto=20 -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fomit-frame-pointer -static-libstdc++ -static-libgcc -mrelax-cmpxchg-loop -pthread -Wl,--build-id=sha1 -Wno-inline"
+export CFLAGS="-DNDEBUG=1 -O3 -mno-vzeroupper --param=lto-max-streaming-parallelism=20 -march=skylake -mtune=skylake -mavx -mavx2 -msse2avx -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x4000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -fasynchronous-unwind-tables -funwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -mrelax-cmpxchg-loop -feliminate-unused-debug-symbols -feliminate-unused-debug-types -flive-range-shrinkage -fno-lto -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fomit-frame-pointer -static-libstdc++ -static-libgcc -mrelax-cmpxchg-loop -pthread -Wl,--build-id=sha1 -Wno-inline"
+export ASMFLAGS="-DNDEBUG=1 -O3 -mno-vzeroupper --param=lto-max-streaming-parallelism=20 -march=skylake -mtune=skylake -mavx -mavx2 -msse2avx -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x4000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -fasynchronous-unwind-tables -funwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -mrelax-cmpxchg-loop -feliminate-unused-debug-symbols -feliminate-unused-debug-types -flive-range-shrinkage -fno-lto -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fomit-frame-pointer -static-libstdc++ -static-libgcc -mrelax-cmpxchg-loop -pthread -Wl,--build-id=sha1 -Wno-inline"
+export CXXFLAGS="-DNDEBUG=1 -O3 -mno-vzeroupper --param=lto-max-streaming-parallelism=20 -march=skylake -mtune=skylake -mavx -mavx2 -msse2avx -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x4000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -fasynchronous-unwind-tables -funwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -mrelax-cmpxchg-loop -feliminate-unused-debug-symbols -feliminate-unused-debug-types -flive-range-shrinkage -fno-lto -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -fvisibility-inlines-hidden -pipe -ffat-lto-objects -fomit-frame-pointer -static-libstdc++ -static-libgcc -mrelax-cmpxchg-loop -pthread -Wl,--build-id=sha1 -Wno-inline"
+export FCFLAGS="-DNDEBUG=1 -O3 -mno-vzeroupper --param=lto-max-streaming-parallelism=20 -march=skylake -mtune=skylake -mavx -mavx2 -msse2avx -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x4000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -fasynchronous-unwind-tables -funwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -mrelax-cmpxchg-loop -feliminate-unused-debug-symbols -feliminate-unused-debug-types -flive-range-shrinkage -fno-lto -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fomit-frame-pointer -static-libstdc++ -static-libgcc -mrelax-cmpxchg-loop -pthread -Wl,--build-id=sha1 -Wno-inline"
+export FFLAGS="-DNDEBUG=1 -O3 -mno-vzeroupper --param=lto-max-streaming-parallelism=20 -march=skylake -mtune=skylake -mavx -mavx2 -msse2avx -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x4000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -fasynchronous-unwind-tables -funwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -mrelax-cmpxchg-loop -feliminate-unused-debug-symbols -feliminate-unused-debug-types -flive-range-shrinkage -fno-lto -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fomit-frame-pointer -static-libstdc++ -static-libgcc -mrelax-cmpxchg-loop -pthread -Wl,--build-id=sha1 -Wno-inline"
+export LDFLAGS="-DNDEBUG=1 -O3 -mno-vzeroupper --param=lto-max-streaming-parallelism=20 -march=skylake -mtune=skylake -mavx -mavx2 -msse2avx -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now,-z,relro,-z,max-page-size=0x4000,-z,separate-code -Wno-error -mprefer-vector-width=256 -falign-functions=32 -fasynchronous-unwind-tables -funwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -Wl,-Bsymbolic-functions -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-slp-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -mrelax-cmpxchg-loop -feliminate-unused-debug-symbols -feliminate-unused-debug-types -flive-range-shrinkage -fno-lto -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fomit-frame-pointer -static-libstdc++ -static-libgcc -mrelax-cmpxchg-loop -pthread -Wl,--build-id=sha1 -Wno-inline"
 export AR=/usr/bin/gcc-ar
 export RANLIB=/usr/bin/gcc-ranlib
 export NM=/usr/bin/gcc-nm
@@ -215,7 +242,7 @@ export QT_ENABLE_HIGHDPI_SCALING=0
 export QT_FONT_DPI=88
 export GTK_USE_PORTAL=1
 export DESKTOP_SESSION=plasma
-## altflags1 end
+## altflags1f end
 pushd src
 %make_install
 popd
@@ -224,3 +251,88 @@ popd
 
 %files
 %defattr(-,root,root,-)
+
+%files data
+%defattr(-,root,root,-)
+/usr/share/qt5/qsci/api/python/Python-2.4.api
+/usr/share/qt5/qsci/api/python/Python-2.5.api
+/usr/share/qt5/qsci/api/python/Python-2.6.api
+/usr/share/qt5/qsci/api/python/Python-2.7.api
+/usr/share/qt5/qsci/api/python/Python-3.1.api
+/usr/share/qt5/qsci/api/python/Python-3.2.api
+/usr/share/qt5/qsci/api/python/Python-3.3.api
+/usr/share/qt5/qsci/api/python/Python-3.4.api
+/usr/share/qt5/qsci/api/python/Python-3.5.api
+/usr/share/qt5/qsci/api/python/Python-3.6.api
+/usr/share/qt5/qsci/api/python/Python-3.7.api
+/usr/share/qt5/qsci/api/python/Python-3.8.api
+/usr/share/qt5/qsci/api/python/Python-3.9.api
+/usr/share/qt5/translations/qscintilla_cs.qm
+/usr/share/qt5/translations/qscintilla_de.qm
+/usr/share/qt5/translations/qscintilla_es.qm
+/usr/share/qt5/translations/qscintilla_fr.qm
+/usr/share/qt5/translations/qscintilla_pt_br.qm
+
+%files dev
+%defattr(-,root,root,-)
+/usr/include/qt5/Qsci/qsciabstractapis.h
+/usr/include/qt5/Qsci/qsciapis.h
+/usr/include/qt5/Qsci/qscicommand.h
+/usr/include/qt5/Qsci/qscicommandset.h
+/usr/include/qt5/Qsci/qscidocument.h
+/usr/include/qt5/Qsci/qsciglobal.h
+/usr/include/qt5/Qsci/qscilexer.h
+/usr/include/qt5/Qsci/qscilexeravs.h
+/usr/include/qt5/Qsci/qscilexerbash.h
+/usr/include/qt5/Qsci/qscilexerbatch.h
+/usr/include/qt5/Qsci/qscilexercmake.h
+/usr/include/qt5/Qsci/qscilexercoffeescript.h
+/usr/include/qt5/Qsci/qscilexercpp.h
+/usr/include/qt5/Qsci/qscilexercsharp.h
+/usr/include/qt5/Qsci/qscilexercss.h
+/usr/include/qt5/Qsci/qscilexercustom.h
+/usr/include/qt5/Qsci/qscilexerd.h
+/usr/include/qt5/Qsci/qscilexerdiff.h
+/usr/include/qt5/Qsci/qscilexeredifact.h
+/usr/include/qt5/Qsci/qscilexerfortran.h
+/usr/include/qt5/Qsci/qscilexerfortran77.h
+/usr/include/qt5/Qsci/qscilexerhtml.h
+/usr/include/qt5/Qsci/qscilexeridl.h
+/usr/include/qt5/Qsci/qscilexerjava.h
+/usr/include/qt5/Qsci/qscilexerjavascript.h
+/usr/include/qt5/Qsci/qscilexerjson.h
+/usr/include/qt5/Qsci/qscilexerlua.h
+/usr/include/qt5/Qsci/qscilexermakefile.h
+/usr/include/qt5/Qsci/qscilexermarkdown.h
+/usr/include/qt5/Qsci/qscilexermatlab.h
+/usr/include/qt5/Qsci/qscilexeroctave.h
+/usr/include/qt5/Qsci/qscilexerpascal.h
+/usr/include/qt5/Qsci/qscilexerperl.h
+/usr/include/qt5/Qsci/qscilexerpo.h
+/usr/include/qt5/Qsci/qscilexerpostscript.h
+/usr/include/qt5/Qsci/qscilexerpov.h
+/usr/include/qt5/Qsci/qscilexerproperties.h
+/usr/include/qt5/Qsci/qscilexerpython.h
+/usr/include/qt5/Qsci/qscilexerruby.h
+/usr/include/qt5/Qsci/qscilexerspice.h
+/usr/include/qt5/Qsci/qscilexersql.h
+/usr/include/qt5/Qsci/qscilexertcl.h
+/usr/include/qt5/Qsci/qscilexertex.h
+/usr/include/qt5/Qsci/qscilexerverilog.h
+/usr/include/qt5/Qsci/qscilexervhdl.h
+/usr/include/qt5/Qsci/qscilexerxml.h
+/usr/include/qt5/Qsci/qscilexeryaml.h
+/usr/include/qt5/Qsci/qscimacro.h
+/usr/include/qt5/Qsci/qsciprinter.h
+/usr/include/qt5/Qsci/qsciscintilla.h
+/usr/include/qt5/Qsci/qsciscintillabase.h
+/usr/include/qt5/Qsci/qscistyle.h
+/usr/include/qt5/Qsci/qscistyledtext.h
+/usr/lib64/libqscintilla2_qt5.so
+/usr/lib64/qt5/mkspecs/features/qscintilla2.prf
+
+%files lib
+%defattr(-,root,root,-)
+/usr/lib64/libqscintilla2_qt5.so.15
+/usr/lib64/libqscintilla2_qt5.so.15.1
+/usr/lib64/libqscintilla2_qt5.so.15.1.1
