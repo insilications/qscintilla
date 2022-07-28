@@ -39,7 +39,6 @@ qtsvg
 qtsvg-dev
 qttools-dev
 readline-dev
-sio-dev
 sip
 sip-dev
 sqlite-autoconf-dev
